@@ -23,7 +23,7 @@ node{
 		
 				 		
 		
-		
+		dir ('wrapper') {
 		
         docker.image('emtrout/dind:latest').inside {
 		     
@@ -62,7 +62,7 @@ node{
 		
 		
 
-
+}
      
 	   
  }
