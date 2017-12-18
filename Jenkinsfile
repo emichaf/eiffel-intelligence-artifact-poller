@@ -39,7 +39,7 @@ node{
 		
 		
 		
-		stage ('Update Build Info and Push change') {
+		stage ('EI Backend CI/CD Wrapper: Update Build Info and Push change') {
 
 		    dir ('wrapper') {
 		
