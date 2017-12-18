@@ -27,19 +27,7 @@ node{
               
 			  
         }
-		
-		
-		
-		stage ('GERRIT Checkout EI Artifact Wrapper') {
-	   
-	        dir ('wrapper') {
-			
-						   
- 			               git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
-            }
-                                          
-			  
-        }	
+
 		
 		
 		
@@ -48,6 +36,8 @@ node{
 		stage ('Update Build Info and Push change') {
 
 			dir ('wrapper') {
+			
+			 git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
 			 
                    withCredentials([[$class: 'UsernamePasswordMultiBinding',
                                     credentialsId: 'fbb60332-6a43-489a-87f7-4cea380ad6ca',
