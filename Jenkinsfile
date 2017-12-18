@@ -6,8 +6,13 @@ node{
 
  docker.withServer('tcp://docker104-eiffel999.lmera.ericsson.se:4243', 'remote_docker_host') {
 
+  triggers {
+                pollSCM 'H/1 * * * *'
+            }
+ 
+ 
 
-        stage ('GITHUB Checkout EI Backend Artifact SC') {
+        stage ('GITHUB Checkout EI Artifact SC') {
 	    
 		    dir ('sourcecode') {
 	           
@@ -23,7 +28,7 @@ node{
 		
 		
 		
-		stage ('GITHUB Checkout EI Backend wrapper') {
+		stage ('GERRIT Checkout EI Artifact Wrapper') {
 	   
 	        dir ('wrapper') {
 			
