@@ -4,7 +4,7 @@ node{
      properties([pipelineTriggers([pollSCM('H/1 * * * *')])])
 
      String GIT_SHORT_COMMIT
-     String GIT_LONG_COMMIT
+      String GIT_LONG_COMMIT
 
 
  docker.withServer('tcp://docker104-eiffel999.lmera.ericsson.se:4243', 'remote_docker_host') {
