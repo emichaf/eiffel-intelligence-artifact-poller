@@ -45,6 +45,12 @@ node{
 						    // Write GITHUB repo hash to build info file, overwrite existin value
                             // sh "echo $GIT_LONG_COMMIT > build_info.txt"
 
+							
+							def exists = fileExists 'build_info.yaml'
+
+								if (exists) {
+									sh 'rm build_info.yaml'
+								} 
 							def yaml_content = ['commit': "$GIT_LONG_COMMIT"]                                                                          
                             writeYaml file: 'build_info.yaml', data: yaml_content
 							
