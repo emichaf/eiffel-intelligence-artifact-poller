@@ -30,7 +30,7 @@ node{
 			
 			
 			// OBS do NOT use git poll: false... it will not work, the build will be triggered circular after the 
-			// build_info.txt file been updated and pushed
+			// build info file been updated and pushed
 			
 			checkout scm: [$class: 'GitSCM', 
 				  userRemoteConfigs: [[url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git']], 
@@ -45,10 +45,10 @@ node{
 							
 							// Update build_info.yaml file with github hash
 							def exists = fileExists 'build_info.yaml'
-
 								if (exists) {
 									sh 'rm build_info.yaml'
 								} 
+								
 							def yaml_content = ['commit': "$GIT_LONG_COMMIT"]                                                                          
                             writeYaml file: 'build_info.yaml', data: yaml_content
 							
