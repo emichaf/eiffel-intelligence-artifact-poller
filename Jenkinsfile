@@ -9,27 +9,34 @@ node{
 
         stage ('GITHUB Checkout EI Backend Artifact SC') {
 	   
-	          dir ('sourcecode') {
+	           
                             git branch: "master", url: 'https://github.com/Ericsson/eiffel-intelligence.git'
 
                             GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
 
                             GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
 
-              }
+              
 			  
         }
 		
 		
-				 		
+		stage ('GITHUB Checkout EI Backend wrapper') {
+	   
+	           
+			       git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
+
+                                          
+			  
+        }	
 		
-		dir ('wrapper') {
+		
 		
         docker.image('emtrout/dind:latest').inside {
 		     
 			stage ('EI Backend CI/CD Wrapper: Update Build Info and Push change') {
 			
-			       git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
+
 		
                    withCredentials([[$class: 'UsernamePasswordMultiBinding',
                                     credentialsId: 'fbb60332-6a43-489a-87f7-4cea380ad6ca',
@@ -57,12 +64,12 @@ node{
 				   
 		    
 
-        }
+            }
 		}
 		
 		
 
-}
+
      
 	   
  }
