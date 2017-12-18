@@ -25,7 +25,7 @@ node{
 		 stage ('GIT Checkout EI Backend CI/CD Wrapper') {
 
             dir ('wrapper') {
-            git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-frontend-artifact-wrapper.git'
+            git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
 
             }
 
