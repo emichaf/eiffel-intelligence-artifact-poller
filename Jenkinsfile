@@ -31,13 +31,13 @@ node{
 		
 		
 		
-        
+      /*  
 		     
 		stage ('Update Build Info and Push change') {
 
 			dir ('wrapper') {
 			
-			 /*
+			 
 			 git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
 			 
                    withCredentials([[$class: 'UsernamePasswordMultiBinding',
@@ -63,13 +63,13 @@ node{
                             sh("git push http://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/emichaf/eiffel-intelligence-artifact-wrapper.git")
 
                    }
-				   */
+				   
             }
 
         }
 		
 		
-		
+		*/
 
 
      
