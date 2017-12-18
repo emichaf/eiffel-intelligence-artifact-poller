@@ -45,8 +45,8 @@ node{
                             sh "echo commit = $GIT_LONG_COMMIT >> build_info.txt"
 
 
-                            sh('git config user.email ${GITHUB_USER}')
-                            sh('git config user.name ${GITHUB_USER}')
+                            //sh("git config user.email ${GITHUB_USER}')
+                            //sh("git config user.name ${GITHUB_USER}')
 
 
                             sh('git add .')
