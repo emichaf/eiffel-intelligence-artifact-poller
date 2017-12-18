@@ -1,7 +1,7 @@
 node{
 
 
-
+     properties([pipelineTriggers([pollSCM('H/1 * * * *')])])
 
      String GIT_SHORT_COMMIT
      String GIT_LONG_COMMIT
