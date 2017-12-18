@@ -10,9 +10,11 @@ node{
         stage ('GITHUB Checkout EI Backend Artifact SC') {
 	   
 	           
-                            git branch: "master", url: 'https://github.com/Ericsson/eiffel-intelligence.git'
-
-                            GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+                            //git branch: "master", url: 'https://github.com/Ericsson/eiffel-intelligence.git'
+                            
+							git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
+                            
+							GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
 
                             GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
 
@@ -21,10 +23,11 @@ node{
         }
 		
 		
+		
 		stage ('GITHUB Checkout EI Backend wrapper') {
 	   
 	           
-			       git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
+			       //git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
 
                                           
 			  
