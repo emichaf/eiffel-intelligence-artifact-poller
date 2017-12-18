@@ -43,14 +43,17 @@ node{
                                     passwordVariable: 'GITHUB_PASSWORD']]) {
 
 							
+							
+							
 							// Update build_info.yaml file with github hash
-							def exists = fileExists 'build_info.yaml'
+							String file_name = 'build_info.yaml'
+							def exists = fileExists "$file_name"
 								if (exists) {
-									sh 'rm build_info.yaml'
+									sh "rm $file_name"
 								} 
 								
 							def yaml_content = ['commit': "$GIT_LONG_COMMIT"]                                                                          
-                            writeYaml file: 'build_info.yaml', data: yaml_content
+                            writeYaml file: "$file_name", data: yaml_content
 							
 
                             sh('git config user.email ${GITHUB_USER}')
