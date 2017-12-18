@@ -7,7 +7,6 @@ node{
      String GIT_LONG_COMMIT
   
 
-
         stage ('GITHUB Checkout EI Artifact SC') {
 	    
 		    dir ('sourcecode') {
@@ -44,8 +43,11 @@ node{
                                     passwordVariable: 'GITHUB_PASSWORD']]) {
 
 						    // Write GITHUB repo hash to build info file, overwrite existin value
-                            sh "echo $GIT_LONG_COMMIT > build_info.txt"
+                            //sh "echo $GIT_LONG_COMMIT > build_info.txt"
 
+							def yaml_content = ['commit': '$GIT_LONG_COMMIT']                                                                          
+                            writeYaml file: 'build_info.yaml', data: amap
+							
 
                             sh('git config user.email ${GITHUB_USER}')
                             sh('git config user.name ${GITHUB_USER}')
