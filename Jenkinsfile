@@ -64,7 +64,7 @@ node{
 
                             sh("echo my_commit = ${my_commit}")
 
-                            sh("git push http://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/emichaf/eiffel-intelligence-artifact-wrapper.git")
+                            sh("git push http://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/emichaf/eiffel-intelligence-artifact-wrapper.git HEAD:master")
 
                    }
 				   
