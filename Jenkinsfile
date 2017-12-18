@@ -6,12 +6,6 @@ node{
 
  docker.withServer('tcp://docker104-eiffel999.lmera.ericsson.se:4243', 'remote_docker_host') {
 
- 
-	 /*
-     triggers {
-                pollSCM 'H/1 * * * *'
-            }
-     */
 
         stage ('GITHUB Checkout EI Backend Artifact SC') {
 	   
@@ -40,7 +34,7 @@ node{
 		
 		
 		stage ('EI Backend CI/CD Wrapper: Update Build Info and Push change') {
-
+        docker.image('emtrout/dind:latest').inside {
 		    dir ('wrapper') {
 		
                    withCredentials([[$class: 'UsernamePasswordMultiBinding',
@@ -70,6 +64,7 @@ node{
 		    }
 
         }
+		}
 		
 		
 
