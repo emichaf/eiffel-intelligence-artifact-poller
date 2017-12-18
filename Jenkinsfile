@@ -34,10 +34,8 @@ node{
 		
         docker.image('emtrout/dind:latest').inside {
 		     
-			stage ('EI Backend CI/CD Wrapper: Update Build Info and Push change') {
-			
+			 stage ('Update Build Info and Push change') {
 
-		
                    withCredentials([[$class: 'UsernamePasswordMultiBinding',
                                     credentialsId: 'fbb60332-6a43-489a-87f7-4cea380ad6ca',
                                     usernameVariable: 'GITHUB_USER',
@@ -46,8 +44,8 @@ node{
                             sh "echo commit = $GIT_LONG_COMMIT >> build_info.txt"
 
 
-                            //sh("git config user.email ${GITHUB_USER}')
-                            //sh("git config user.name ${GITHUB_USER}')
+                            sh("git config user.email ${GITHUB_USER}")
+                            sh("git config user.name ${GITHUB_USER}")
 
 
                             sh('git add .')
@@ -61,10 +59,8 @@ node{
                             sh("git push http://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/emichaf/eiffel-intelligence-artifact-wrapper.git")
 
                    }
-				   
-		    
 
-            }
+        }
 		}
 		
 		
