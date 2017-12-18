@@ -21,21 +21,15 @@ node{
         }
 		
 		
-		
-		 stage ('GIT Checkout EI Backend CI/CD Wrapper') {
-
-            dir ('wrapper') {
-            git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
-
-            }
-
-        }
-		
+				 		
 		
 		
 		stage ('EI Backend CI/CD Wrapper: Update Build Info and Push change') {
         docker.image('emtrout/dind:latest').inside {
 		    dir ('wrapper') {
+			
+			
+			       git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
 		
                    withCredentials([[$class: 'UsernamePasswordMultiBinding',
                                     credentialsId: 'fbb60332-6a43-489a-87f7-4cea380ad6ca',
