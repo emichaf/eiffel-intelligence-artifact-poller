@@ -24,10 +24,10 @@ node{
 				 		
 		
 		
-		stage ('EI Backend CI/CD Wrapper: Update Build Info and Push change') {
+		
         docker.image('emtrout/dind:latest').inside {
 		     
-			
+			stage ('EI Backend CI/CD Wrapper: Update Build Info and Push change') {
 			
 			       git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
 		
