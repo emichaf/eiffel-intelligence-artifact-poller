@@ -35,7 +35,7 @@ node{
 	        dir ('wrapper') {
 			
 						   
- 			               git poll: true, branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
+ 			               git poll: false, branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
             }
                                           
 			  
