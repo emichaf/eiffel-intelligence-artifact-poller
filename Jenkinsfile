@@ -1,6 +1,6 @@
 node{
 
-
+     // Poll every minute
      properties([pipelineTriggers([pollSCM('* * * * *')])])
 
      String GIT_SHORT_COMMIT
@@ -25,13 +25,13 @@ node{
 
 	        
 		     
-		stage ('Update Build Info and Push change') {
+		stage ('GERRIT Update Build Info and Push change') {
 
 			dir ('wrapper') {
 			
 			
 			// OBS do NOT use git poll: false... it will not work, the build will be triggered circular after the 
-			// build_info.txt file benn updated and pushed
+			// build_info.txt file been updated and pushed
 			
 			checkout scm: [$class: 'GitSCM', 
 				  userRemoteConfigs: [[url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git']], 
@@ -43,7 +43,8 @@ node{
                                     usernameVariable: 'GITHUB_USER',
                                     passwordVariable: 'GITHUB_PASSWORD']]) {
 
-                            sh "echo commit = $GIT_LONG_COMMIT >> build_info.txt"
+						    // Write GITHUB repo hash to build info file, overwrite existin value
+                            sh "echo commit = $GIT_LONG_COMMIT > build_info.txt"
 
 
                             sh('git config user.email ${GITHUB_USER}')
@@ -52,11 +53,6 @@ node{
 
                             sh('git add .')
                             sh('git commit -m "build info updated"')
-
-                            /*check new commit*/
-                            String my_commit = sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
-
-                            sh("echo my_commit = ${my_commit}")
 
                             sh("git push http://${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/emichaf/eiffel-intelligence-artifact-wrapper.git HEAD:master")
 
