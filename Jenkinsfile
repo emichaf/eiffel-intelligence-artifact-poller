@@ -42,10 +42,8 @@ node{
                                     usernameVariable: 'GITHUB_USER',
                                     passwordVariable: 'GITHUB_PASSWORD']]) {
 
-						    // Write GITHUB repo hash to build info file, overwrite existin value
-                            // sh "echo $GIT_LONG_COMMIT > build_info.txt"
-
 							
+							// Update build_info.yaml file with github hash
 							def exists = fileExists 'build_info.yaml'
 
 								if (exists) {
