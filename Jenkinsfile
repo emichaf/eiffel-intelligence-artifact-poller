@@ -18,7 +18,7 @@ node{
 		    dir ('sourcecode') {
 	                        
 									   
-                            git poll: true, branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence.git'                          
+                            git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence.git'                          
                            
 							GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
 
@@ -35,7 +35,7 @@ node{
 	        dir ('wrapper') {
 			
 						   
- 			               git poll: false, branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
+ 			               git branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
             }
                                           
 			  
