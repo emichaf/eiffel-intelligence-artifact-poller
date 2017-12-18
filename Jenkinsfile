@@ -46,7 +46,7 @@ node{
                             // sh "echo $GIT_LONG_COMMIT > build_info.txt"
 
 							def yaml_content = ['commit': '$GIT_LONG_COMMIT']                                                                          
-                            writeYaml file: 'build_info.yaml', data: amap
+                            writeYaml file: 'build_info.yaml', data: yaml_content
 							
 
                             sh('git config user.email ${GITHUB_USER}')
