@@ -5,12 +5,9 @@ node{
 
      String GIT_SHORT_COMMIT
      String GIT_LONG_COMMIT
-  //test
-
- docker.withServer('tcp://docker104-eiffel999.lmera.ericsson.se:4243', 'remote_docker_host') {
-
   
- 
+
+ //docker.withServer('tcp://docker104-eiffel999.lmera.ericsson.se:4243', 'remote_docker_host') {
  
 
         stage ('GITHUB Checkout EI Artifact SC') {
@@ -28,22 +25,21 @@ node{
 			  
         }
 
-		
-		
-		
-        
+	        
 		     
 		stage ('Update Build Info and Push change') {
 
 			dir ('wrapper') {
 			
+			
+			// OBS do NOT use git poll: false... it will not work, the build will be triggered circular after the 
+			// build_info.txt file benn updated and pushed
+			
 			checkout scm: [$class: 'GitSCM', 
 				  userRemoteConfigs: [[url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git']], 
 				  branches: [[name: '*/master']]], changelog: false, poll: false
-			 
-			 
-			 //git poll: false, branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
-			 
+	
+	
                    withCredentials([[$class: 'UsernamePasswordMultiBinding',
                                     credentialsId: 'fbb60332-6a43-489a-87f7-4cea380ad6ca',
                                     usernameVariable: 'GITHUB_USER',
@@ -80,4 +76,4 @@ node{
 	   
  }
 
-}
+//}
