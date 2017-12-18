@@ -43,7 +43,7 @@ node{
                                     passwordVariable: 'GITHUB_PASSWORD']]) {
 
 						    // Write GITHUB repo hash to build info file, overwrite existin value
-                            //sh "echo $GIT_LONG_COMMIT > build_info.txt"
+                            // sh "echo $GIT_LONG_COMMIT > build_info.txt"
 
 							def yaml_content = ['commit': '$GIT_LONG_COMMIT']                                                                          
                             writeYaml file: 'build_info.yaml', data: amap
