@@ -39,7 +39,7 @@ node{
 			
 			checkout scm: [$class: 'GitSCM', 
 				  userRemoteConfigs: [[url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git']], 
-				  branche:'master'], changelog: false, poll: false
+				  branch:'master'], changelog: false, poll: false
 			 
 			 //git poll: false, branch: "master", url: 'https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git'
 			 
