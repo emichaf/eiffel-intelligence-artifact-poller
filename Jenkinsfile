@@ -44,7 +44,7 @@ node{
                                     passwordVariable: 'GITHUB_PASSWORD']]) {
 
 						    // Write GITHUB repo hash to build info file, overwrite existin value
-                            sh "echo commit = $GIT_LONG_COMMIT > build_info.txt"
+                            sh "echo commit = \"$GIT_LONG_COMMIT\" > build_info.txt"
 
 
                             sh('git config user.email ${GITHUB_USER}')
