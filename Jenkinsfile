@@ -73,6 +73,14 @@ node{
 		
 		
 		
+		stage ('Trigger EI component jobs') {
+		
+		  build job: 'eiffel-intelligence-artifact-wrapper', parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
+		
+		
+       }
+		
+		
 
 
      
