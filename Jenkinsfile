@@ -29,7 +29,7 @@ node{
 
 
 
-		stage ('GERRIT Update Build Info and Push Change') {
+		stage ('GERRIT - Update Wrapper Build Info and Push Change') {
 
 			dir ('wrapper') {
 
@@ -77,7 +77,7 @@ node{
 
 
 
-		stage ('Trigger EI BackEnd component jobs') {
+		stage ('Trigger EI BackEnd SC Component Jobs') {
 
 		    build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
 
