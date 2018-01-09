@@ -10,7 +10,7 @@ node{
      String WRAPPER_PIPELINE = "eiffel-intelligence-artifact-wrapper"
      String WRAPPER_BRANCH = "master"
      String SOURCE_CODE_REPO = "https://github.com/emichaf/eiffel-intelligence.git"
-
+     String build_info_file = 'build_info.yml'
 
         stage ('GITHUB Checkout EI FrontEnd Artifact SC') {
 
@@ -50,15 +50,14 @@ node{
 
 
 
-							// Update build_info.yaml file with github hash
-							String file_name = 'build_info.yaml'
-							def exists = fileExists "$file_name"
+							// Update build_info.yml file with github hash
+							def exists = fileExists "$build_info_file"
 								if (exists) {
-									sh "rm $file_name"
+									sh "rm $build_info_file"
 								}
 
-							def yaml_content = ['commit': "$GIT_LONG_COMMIT"]
-                            writeYaml file: "$file_name", data: yaml_content
+							def yml_content = ['commit': "$GIT_LONG_COMMIT"]
+                            writeYaml file: "$build_info_file", data: yml_content
 
 
                             sh('git config user.email ${GITHUB_USER}')
@@ -66,7 +65,7 @@ node{
 
 
                             sh('git add .')
-                            sh('git commit -m "build info updated"')
+                            sh('git commit -m "build info file updated"')
 
                             sh("git push http://${GITHUB_USER}:${GITHUB_PASSWORD}@${WRAPPER_REPO_PATH} HEAD:${WRAPPER_BRANCH}")
 
