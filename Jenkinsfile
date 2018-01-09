@@ -12,7 +12,7 @@ node{
      String SOURCE_CODE_REPO = "https://github.com/emichaf/eiffel-intelligence.git"
      String build_info_file = 'build_info.yml'
 
-        stage ('GITHUB Checkout EI FrontEnd Artifact SC') {
+        stage ('GITHUB Checkout EI BackEnd Artifact SC') {
 
 		    dir ('sourcecode') {
 
@@ -29,7 +29,7 @@ node{
 
 
 
-		stage ('GERRIT Update Build Info and Push change') {
+		stage ('GERRIT Update Build Info and Push Change') {
 
 			dir ('wrapper') {
 
@@ -77,7 +77,7 @@ node{
 
 
 
-		stage ('Trigger EI FrontEnd component jobs') {
+		stage ('Trigger EI BackEnd component jobs') {
 
 		    build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
 
