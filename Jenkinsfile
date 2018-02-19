@@ -1,3 +1,5 @@
+import wslite.http.auth.*
+import wslite.rest.*
 node{
 
 	stage ('mintest') {
