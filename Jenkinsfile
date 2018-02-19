@@ -1,3 +1,4 @@
+#!groovy
 node{
 
      // Poll every minute
