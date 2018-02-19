@@ -14,7 +14,7 @@ node{
            // println "${json}"
 
 
-
+      script{
             def json = """{
                     "meta.tags[0]":"my_meta[0]tags",
                      "meta.tags[1]":"my_meta[1]tags",
@@ -42,6 +42,7 @@ node{
                 println "${response}"
 
         }
+      }
 
 
 }
