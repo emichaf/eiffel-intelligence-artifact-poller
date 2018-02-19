@@ -90,6 +90,10 @@ docker.image('emtrout/nind23').inside("--privileged"){
 		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
 
 
+            COMITTER_MAIL = {sh(returnStdout: true, script: "git --no-pager show -s --format='%ce' -n 1").trim()}
+            COMITTER_DATE = {sh(returnStdout: true, script: "git --no-pager show -s --format='%ct' -n 1").trim()}
+            COMITTER_ID = {sh(returnStdout: true, script: "git --no-pager show -s --format='%an' -n 1").trim()}
+
             def json = """{
                             "meta.tags[0]":"my_meta[0]tags",
                             "meta.tags[1]":"my_meta[1]tags",
@@ -100,8 +104,8 @@ docker.image('emtrout/nind23').inside("--privileged"){
                             "meta.security.sdm.authorIdentity":"my_meta.security.sdm.authorIdentity",
                             "meta.security.sdm.encryptedDigest":"my_meta.security.sdm.encryptedDigest",
                             "data.submitter.name":"my_data.submitter.name",
-                            "data.submitter.email": "${sh(returnStdout: true, script: "git --no-pager show -s --format='%ce' -n 1").trim()}",
-                            "data.submitter.id":"my_data.submitter.id",
+                            "data.submitter.email": "${COMITTER_MAIL}",
+                            "data.submitter.id":"${COMITTER_ID}",
                             "data.submitter.group":"my_data.submitter.group",
                             "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
                             "data.gitIdentifier.repoUri":"my_data.gitIdentifier.repoUri",
