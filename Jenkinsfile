@@ -1,3 +1,8 @@
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import wslite.http.auth.*
+import wslite.rest.*
+
+
 node{
 
 	stage ('mintest') {
@@ -40,9 +45,6 @@ node{
                 //println "${json}"
 
 
-                @Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-                import wslite.http.auth.*
-                import wslite.rest.*
 
                 def client = new RESTClient("http://docker104-eiffel999.lmera.ericsson.se:9900")
                 //client.authorization = new HTTPBasicAuthorization("user", "pass")
