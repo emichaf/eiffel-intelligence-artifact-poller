@@ -13,7 +13,7 @@ node{
 
 
 
-            def json = '{
+            def json = """{
                     "meta.tags[0]":"my_meta[0]tags",
                      "meta.tags[1]":"my_meta[1]tags",
                      "meta.source.domainId":"my_meta.source.domainId",
@@ -30,7 +30,7 @@ node{
                      "data.persistentLogs[1]": {"name" : "my_data.persistentLogs[1]name", "uri" : "my_data.persistentLogs[1]uri"},
                      "data.persistentLogs[2]": {"name" : "my_data.persistentLogs[2]name", "uri" : "my_data.persistentLogs[2]uri"},
                      "links[0]": {"type" : "ACTIVITY_EXECUTION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"}
-                }'
+                }"""
 
 
                // process = ["curl", "-k", "--user", "user:pass", "-X", "POST", "-H", "Content-Type: application/json", "-d", "${json}", "https://<api_uri>/launch"].execute().text
