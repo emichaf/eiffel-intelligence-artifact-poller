@@ -1,4 +1,3 @@
-
 node{
 
      // Poll every minute
