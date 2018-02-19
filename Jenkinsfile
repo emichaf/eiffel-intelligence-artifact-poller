@@ -1,4 +1,4 @@
-#!groovy
+
 node{
 
      // Poll every minute
@@ -77,6 +77,8 @@ node{
         }
 
 
+
+ //docker.image('emtrout/nind23').inside("--privileged"){
 		stage ('Trigger EI BackEnd SC Component Jobs') {
 
 		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
@@ -87,28 +89,16 @@ node{
 
            // sh "curl -H \"Content-Type: application/json\" -X POST -d '{\"meta.tags[0]\":\"frickenwashere\"}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"
 
-           script {
-            import groovyx.net.http.ContentType
+String json='{"meta.tags[0]":"frickenwashere"}'
 
-                http.request(POST) {
-                    uri.path = 'http://example.com/handler.php'
-                    // Note: Set ConentType before body or risk null pointer.
-                    requestContentType = ContentType.JSON
-                    body = [name: 'bob', title: 'construction worker']
+def response = ["curl", "-k", "-X", "POST", "-H", "Content-Type: application/json", "-d", "${json}", "http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"].execute().text
 
-                    response.success = { resp ->
-                        println "Success! ${resp.status}"
-                    }
+println response
 
-                    response.failure = { resp ->
-                        println "Request failed with status ${resp.status}"
-                    }
-                }
 
-            }
 
         }
-
+//}
 
 
 
