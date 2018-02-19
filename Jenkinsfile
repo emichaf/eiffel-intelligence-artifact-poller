@@ -1,5 +1,3 @@
-import wslite.http.auth.*
-import wslite.rest.*
 node{
 
 	stage ('mintest') {
@@ -35,7 +33,7 @@ node{
                 }"""
 
 
-sh "curl -H \"Content-Type: application/json\" -X POST -d "${json}" http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"
+sh "curl -H \"Content-Type: application/json\" -X POST -d \"${json}\" http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"
 
                // process = ["curl", "-k", "--user", "user:pass", "-X", "POST", "-H", "Content-Type: application/json", "-d", "${json}", "https://<api_uri>/launch"].execute().text
 
