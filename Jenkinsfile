@@ -37,16 +37,9 @@ node{
 
                // process = ["curl", "-k", "--user", "user:pass", "-X", "POST", "-H", "Content-Type: application/json", "-d", "${json}", "https://<api_uri>/launch"].execute().text
 
-               //response = ["curl", "-k", "-X", "POST", "-H", "Content-Type: application/json", "-d", "${json}", "http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"].execute().text
+               response = ["curl", "-k", "-X", "POST", "-H", "Content-Type: application/json", "-d", "${json}", "http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"].execute().text
 
-                //println "${json}"
-
-
-                def client = new RESTClient("http://docker104-eiffel999.lmera.ericsson.se:9900")
-                //client.authorization = new HTTPBasicAuthorization("user", "pass")
-                def response = client.post(path: "/doit/?msgType=EiffelActivityFinishedEvent",headers: ['Content-Type': 'application/json']) {
-                    "${json}"
-                }
+                println "${response}"
 
         }
 
