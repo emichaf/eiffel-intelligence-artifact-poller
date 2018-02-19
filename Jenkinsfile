@@ -34,7 +34,7 @@ node{
 
                             String email = "example@domain.com";
                             String[] parts = COMITTER_MAIL.split('@');
-                            COMITTER_NAME = parts[0].replpace(".", " ");
+                            COMITTER_NAME = parts[0].replace(".", " ");
             }
 
 
@@ -107,7 +107,7 @@ node{
                             "meta.source.uri":"http://docker104-eiffel999.lmera.ericsson.se:8080",
                             "meta.security.sdm.authorIdentity":"my_meta.security.sdm.authorIdentity",
                             "meta.security.sdm.encryptedDigest":"my_meta.security.sdm.encryptedDigest",
-                            "data.submitter.name":"",
+                            "data.submitter.name":"${COMITTER_NAME}",
                             "data.submitter.email": "${COMITTER_MAIL}",
                             "data.submitter.id":"${COMITTER_ID}",
                             "data.submitter.group":"Ericsson",
