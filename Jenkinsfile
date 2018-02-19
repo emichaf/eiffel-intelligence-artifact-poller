@@ -13,7 +13,9 @@ node{
      String build_info_file = 'build_info.yml'
 
 
-
+     String COMITTER_MAIL
+    String COMITTER_DATE
+    String COMITTER_ID
 
         stage ('GITHUB Checkout EI BackEnd Artifact SC') {
 
@@ -25,6 +27,10 @@ node{
 							GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
 
                             GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
+
+                            COMITTER_MAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ce' -n 1").trim()
+                            COMITTER_DATE = sh(returnStdout: true, script: "git --no-pager show -s --format='%ct' -n 1").trim()
+                            COMITTER_ID = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' -n 1").trim()
             }
 
 
@@ -84,14 +90,12 @@ node{
 
 docker.image('emtrout/nind23').inside("--privileged"){
 
-	stage ('MyEventTest') {
+	stage ('Create Event') {
 
 		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
 
 
-            COMITTER_MAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ce' -n 1").trim()
-            COMITTER_DATE = sh(returnStdout: true, script: "git --no-pager show -s --format='%ct' -n 1").trim()
-            COMITTER_ID = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' -n 1").trim()
+
 
             def json = """{
                             "meta.tags[0]":"my_meta[0]tags",
