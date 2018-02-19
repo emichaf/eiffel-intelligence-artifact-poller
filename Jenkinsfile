@@ -87,9 +87,6 @@ node{
 
 
 
-
-docker.image('emtrout/nind23').inside("--privileged"){
-
 	stage ('Create Event') {
 
 		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
@@ -134,7 +131,7 @@ docker.image('emtrout/nind23').inside("--privileged"){
 
         }
 
-}
+
 
 
 
