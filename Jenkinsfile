@@ -1,5 +1,8 @@
 node{
 
+
+docker.image('emtrout/nind23').inside("--privileged"){
+
 	stage ('MyEventTest') {
 
 
@@ -29,6 +32,6 @@ node{
 
         }
 
-
+}
 
 }
