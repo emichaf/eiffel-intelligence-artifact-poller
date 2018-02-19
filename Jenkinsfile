@@ -1,16 +1,6 @@
 node{
 
-	stage ('mintest') {
-
-
-            //json='{"meta.tags[0]":"frickenwashere"}'
-
-            //def response = ["curl", "-k", "-X", "POST", "-H", "Content-Type: application/json", "-d", "${json}", "http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"].execute().text
-
-            //println response
-
-           // println "${json}"
-
+	stage ('MyEventTest') {
 
 
             def json = """{
@@ -32,15 +22,10 @@ node{
                      "links[0]": {"type" : "ACTIVITY_EXECUTION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"}
                 }"""
 
+               // Create Event and publish
+               sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"
 
-//sh 'curl -H "Content-Type: application/json" -X POST --data-binary "${json}" http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent'
-sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"
 
-               // process = ["curl", "-k", "--user", "user:pass", "-X", "POST", "-H", "Content-Type: application/json", "-d", "${json}", "https://<api_uri>/launch"].execute().text
-
-               //response = ["curl", "-k", "-X", "POST", "-H", "Content-Type: application/json", "-d", "${json}", "http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelActivityFinishedEvent"].execute().text
-
-                //println "${response}"
 
         }
 
