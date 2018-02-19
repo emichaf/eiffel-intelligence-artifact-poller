@@ -37,7 +37,7 @@ node{
         }
 
 
-/*
+
 		stage ('GERRIT - Update Wrapper Build Info and Push Change') {
 
 			dir ('wrapper') {
@@ -83,7 +83,7 @@ node{
             }
 
         }
-*/
+
 
 
 
