@@ -9,9 +9,9 @@ node{
      String WRAPPER_REPO_PATH = "github.com/emichaf/eiffel-intelligence-artifact-wrapper.git"
      String WRAPPER_PIPELINE = "eiffel-intelligence-artifact-wrapper"
      String WRAPPER_BRANCH = "master"
-     String SOURCE_CODE_REPO = "https://github.com/emichaf/eiffel-intelligence.git"
+     String SOURCE_CODE_REPO_URI
+     String SOURCE_CODE_REPO_NAME
      String build_info_file = 'build_info.yml'
-
      String COMITTER_NAME
      String COMITTER_MAIL
      String COMITTER_DATE
@@ -20,17 +20,23 @@ node{
      String AUTHOR_MAIL
      String AUTHOR_DATE
      String AUTHOR_ID
-     String GIT_FILES
+     String GIT_FILES_NO
      String GIT_INSERTED
      String GIT_DELETED
-
+     String SOURCE_CODE_CHANGE_DETAILS_URI
+     String SOURCE_CODE_CHANGE_DETAILS_TRACKER = "GitHub"
 
         stage ('GITHUB Checkout EI BackEnd Artifact SC') {
 
 		    dir ('sourcecode') {
 
 
+// OBS "${BRANCH_NAME}", wrapper ?
+
                             git poll: true, branch: "master", url: "$SOURCE_CODE_REPO"
+
+                            SOURCE_CODE_REPO_URI = sh(returnStdout: true, script: "git remote get-url origin").trim()
+                            SOURCE_CODE_REPO_NAME = sh(returnStdout: true, script: "basename -s .git `git config --get remote.origin.url`").trim()
 
 							GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
                             GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
@@ -47,20 +53,27 @@ node{
                             String[] author_parts = AUTHOR_MAIL.split('@');
                             AUTHOR_NAME = author_parts[0].replace(".", " ");
 
+                            SOURCE_CODE_CHANGE_DETAILS_URI = SOURCE_CODE_REPO_URI + "/COMMIT/" + GIT_LONG_COMMIT
+
                             sh("git log --shortstat -n 1")
 
 
-                            GIT_FILES = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=\$1;} END {print files}'").trim()
+                            GIT_FILES_NO = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=\$1;} END {print files}'").trim()
                             GIT_INSERTED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{inserted+=\$4;} END {print inserted}'").trim()
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
 
                             String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
 
+                            String r
 
 // https://github.com/Ericsson/eiffel-intelligence/commit/b4ca03e09a87b699f89601ff7ceab747e92fefd6
+// basename -s .git `git config --get remote.origin.url`
+// git remote -v | head -n1 | awk '{print $2}' | sed -e 's,.*:\(.*/\)\?,,' -e 's/\.git$//'
+// git remote get-url origin
+// -> eiffel-intelligence
+//
 
-                            sh("echo ${env}")
 
                             sh('echo $BRANCH_NAME')
                             sh('echo $GIT_COMMIT')
@@ -140,27 +153,27 @@ node{
                             "meta.source.host":"docker104-eiffel999",
                             "meta.source.name":"my_meta.source.name",
                             "meta.source.uri":"my_meta.source.uri",
-                            "meta.security.sdm.authorIdentity":"my_meta.security.sdm.authorIdentity",
-                            "meta.security.sdm.encryptedDigest":"my_meta.security.sdm.encryptedDigest",
+                            //"meta.security.sdm.authorIdentity":"my_meta.security.sdm.authorIdentity",
+                            //"meta.security.sdm.encryptedDigest":"my_meta.security.sdm.encryptedDigest",
                             "data.author.name":"${AUTHOR_NAME}",
                             "data.author.email":"${AUTHOR_MAIL}",
                             "data.author.id":"${AUTHOR_ID}",
                             "data.author.group":"",
                             "data.change.insertions":${GIT_INSERTED},
                             "data.change.deletions":${GIT_DELETED},
-                            "data.change.files":"${GIT_FILES}",
-                            "data.change.tracker":"my_data.change.tracker",
-                            "data.change.details":"my_data.change.details",
-                            "data.change.id":"my_data.change.id",
-                            "data.issues[0].type":"BUG",
-                            "data.issues[0].tracker":"my_data.issues.tracker",
-                            "data.issues[0].id":"my_data.issues.id",
-                            "data.issues[0].uri":"my_data.issues.uri",
-                            "data.issues[0].transition":"RESOLVED",
+                            "data.change.files":"${SOURCE_CODE_CHANGE_DETAILS_URI}",
+                            "data.change.tracker":"${SOURCE_CODE_CHANGE_DETAILS_TRACKER}",
+                            "data.change.details":"${SOURCE_CODE_CHANGE_DETAILS_URI}",
+                            "data.change.id":"42",
+                            //"data.issues[0].type":"BUG",
+                            //"data.issues[0].tracker":"JIRA",
+                            //"data.issues[0].id":"42",
+                            //"data.issues[0].uri":"http://jira.company.com/browse/JIRA-1234",
+                            //"data.issues[0].transition":"RESOLVED",
                             "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
-                            "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO}",
-                            "data.gitIdentifier.branch":"master",
-                            "data.gitIdentifier.repoName":"eiffel-intelligence.git",
+                            "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
+                            "data.gitIdentifier.branch":"${BRANCH_NAME}",
+                            "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
                             "data.customData[0]": {"key" : "my.data.customData[0]key", "value" : "my.data.customData[0]value"},
                             "data.customData[1]": {"key" : "my.data.customData[1]key", "value" : "my.data.customData[1]value"},
                             "links[0]": {"type" : "BASE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"},
@@ -171,7 +184,9 @@ node{
                             "links[5]": {"type" : "FLOW_CONTEXT", "target" : "e269b37d-17a1-4a10-aafb-c108735ee48a"},
                             "data.svnIdentifier":"<%DELETE%>",
                             "data.ccCompositeIdentifier":"<%DELETE%>",
-                            "data.hgIdentifier":"<%DELETE%>"
+                            "data.hgIdentifier":"<%DELETE%>",
+                            "data.issues[0]":"<%DELETE%>",
+                            "meta.security.sdm":"<%DELETE%>"
                           }"""
 
             // Create SCC Event and publish
@@ -194,9 +209,9 @@ node{
                             "data.submitter.id":"${COMITTER_ID}",
                             "data.submitter.group":"",
                             "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
-                            "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO}",
-                            "data.gitIdentifier.branch":"master",
-                            "data.gitIdentifier.repoName":"eiffel-intelligence.git",
+                            "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
+                            "data.gitIdentifier.branch":"${BRANCH_NAME}",
+                            "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
                             "data.customData[0]": {"key" : "my.data.customData[0]key", "value" : "my.data.customData[0]value"},
                             "data.customData[1]": {"key" : "my.data.customData[1]key", "value" : "my.data.customData[1]value"},
                             "links[0]": {"type" : "CHANGE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"},
