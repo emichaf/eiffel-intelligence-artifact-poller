@@ -53,6 +53,12 @@ node{
                             GIT_INSERTED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{inserted+=\$4;} END {print inserted}'").trim()
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
+
+                            String testar = sh(returnStdout: true, script: "git show --pretty="format:" --name-only -n 1 | awk '{files+=\$1;} END {print files}'").trim()
+
+                            sh("echo ${testar}")
+
+
                             sh("echo ${GIT_FILES}")
                             sh("echo ${GIT_INSERTED}")
                             sh("echo ${GIT_DELETED}")
@@ -133,8 +139,8 @@ node{
                             "data.author.email":"${AUTHOR_MAIL}",
                             "data.author.id":"${AUTHOR_ID}",
                             "data.author.group":"",
-                            "data.change.insertions":"${GIT_INSERTED}",
-                            "data.change.deletions":"${GIT_DELETED}",
+                            "data.change.insertions":${GIT_INSERTED},
+                            "data.change.deletions":${GIT_DELETED},
                             "data.change.files":"${GIT_FILES}",
                             "data.change.tracker":"my_data.change.tracker",
                             "data.change.details":"my_data.change.details",
