@@ -41,27 +41,21 @@ node{
                             String[] comitter_parts = COMITTER_MAIL.split('@');
                             COMITTER_NAME = comitter_parts[0].replace(".", " ");
 
-
                             AUTHOR_MAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' -n 1").trim()
                             AUTHOR_DATE = sh(returnStdout: true, script: "git --no-pager show -s --format='%at' -n 1").trim()
                             AUTHOR_ID = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' -n 1").trim()
                             String[] author_parts = AUTHOR_MAIL.split('@');
                             AUTHOR_NAME = author_parts[0].replace(".", " ");
 
-                            // Set GIT_FILES, GIT_INSERTED & GIT_DELETED
-                            sh("git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{${GIT_FILES}+=\$1; ${GIT_INSERTED}+=\$4; ${GIT_DELETED}+=\$6}'")
+                            sh("git log --shortstat -n 1")
 
                             GIT_FILES = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=\$1;} END {print files}'").trim()
                             GIT_INSERTED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{inserted+=\$4;} END {print inserted}'").trim()
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
-
                             sh("echo ${GIT_FILES}")
                             sh("echo ${GIT_INSERTED}")
                             sh("echo ${GIT_DELETED}")
-
-
-
 
             }
 
