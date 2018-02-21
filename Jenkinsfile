@@ -60,16 +60,7 @@ node{
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
 
-                            //String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
-
-
-
-// https://github.com/Ericsson/eiffel-intelligence/commit/b4ca03e09a87b699f89601ff7ceab747e92fefd6
-// basename -s .git `git config --get remote.origin.url`
-// git remote -v | head -n1 | awk '{print $2}' | sed -e 's,.*:\(.*/\)\?,,' -e 's/\.git$//'
-// git remote get-url origin
-// -> eiffel-intelligence
-//
+                            String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
 
 
             }
