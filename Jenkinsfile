@@ -41,7 +41,7 @@ node{
                             // OBS ONLY WORKING IF GIT CLONE/PULL BEEN PERFORMED
                             //SOURCE_CODE_REPO_URI = sh(returnStdout: true, script: "git remote get-url origin").trim()
 
-                            git poll: true, branch: "${SOURCE_CODE_BRANCH}", url: "$SOURCE_CODE_REPO_URI"
+                            git poll: true, branch: "$SOURCE_CODE_BRANCH", url: "$SOURCE_CODE_REPO_URI"
 
                             SOURCE_CODE_REPO_NAME = sh(returnStdout: true, script: "basename -s .git `git config --get remote.origin.url`").trim()
 
