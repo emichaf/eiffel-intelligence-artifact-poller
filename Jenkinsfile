@@ -59,13 +59,9 @@ node{
 
 
                             String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
-                            String[] me = testar.split(',');
-                            String all_files;
-                            for (String me : mes) {
-                                all_files = all_files + "{\"mes\"}";
-                            }
 
-                            sh("echo ${all_files}")
+
+                            sh("echo ${testar}")
 
                             //sh("git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1}'")
 
