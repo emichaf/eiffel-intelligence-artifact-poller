@@ -3,6 +3,8 @@ node{
      // Poll every minute
      properties([pipelineTriggers([pollSCM('* * * * *')])])
 
+     String EVENT_PARSER_PUB_GEN_URI = 'http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType='
+
      String GIT_SHORT_COMMIT
      String GIT_LONG_COMMIT
      String WRAPPER_REPO = "https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git"
@@ -24,14 +26,14 @@ node{
      String GIT_INSERTED
      String GIT_DELETED
      String SOURCE_CODE_CHANGE_DETAILS_URI
-     String SOURCE_CODE_CHANGE_DETAILS_TRACKER = "GitHub"
+     String SOURCE_CODE_CHANGE_DETAILS_TRACKER = 'GitHub'
 
         stage ('GITHUB Checkout EI BackEnd Artifact SC') {
 
 		    dir ('sourcecode') {
 
 
-// OBS "${BRANCH_NAME}", wrapper ?
+                            // OBS "${BRANCH_NAME}", wrapper ?
 
                             git poll: true, branch: "master", url: "$SOURCE_CODE_REPO"
 
@@ -55,17 +57,14 @@ node{
 
                             SOURCE_CODE_CHANGE_DETAILS_URI = SOURCE_CODE_REPO_URI + "/COMMIT/" + GIT_LONG_COMMIT
 
-                            sh("git log --shortstat -n 1")
-
-
                             GIT_FILES_NO = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=\$1;} END {print files}'").trim()
                             GIT_INSERTED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{inserted+=\$4;} END {print inserted}'").trim()
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
 
-                            String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
+                            //String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
 
-                            String r
+
 
 // https://github.com/Ericsson/eiffel-intelligence/commit/b4ca03e09a87b699f89601ff7ceab747e92fefd6
 // basename -s .git `git config --get remote.origin.url`
@@ -74,14 +73,6 @@ node{
 // -> eiffel-intelligence
 //
 
-
-                            sh('echo $BRANCH_NAME')
-                            sh('echo $GIT_COMMIT')
-
-
-                            sh("echo ${GIT_FILES}")
-                            sh("echo ${GIT_INSERTED}")
-                            sh("echo ${GIT_DELETED}")
 
             }
 
@@ -190,7 +181,7 @@ node{
                           }"""
 
             // Create SCC Event and publish
-            sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelSourceChangeCreatedEvent"
+            sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeCreatedEvent"
 
 
 
@@ -226,7 +217,7 @@ node{
                           }"""
 
                // Create SCS Event and publish
-               sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelSourceChangeSubmittedEvent"
+               sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeSubmittedEvent"
 
 
 
