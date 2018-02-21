@@ -7,12 +7,19 @@ node{
 
      String GIT_SHORT_COMMIT
      String GIT_LONG_COMMIT
+
      String WRAPPER_REPO = "https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git"
      String WRAPPER_REPO_PATH = "github.com/emichaf/eiffel-intelligence-artifact-wrapper.git"
      String WRAPPER_PIPELINE = "eiffel-intelligence-artifact-wrapper"
      String WRAPPER_BRANCH = "master"
-     String SOURCE_CODE_REPO_URI
+
+     String SOURCE_CODE_REPO_URI = "https://github.com/emichaf/eiffel-intelligence.git"
      String SOURCE_CODE_REPO_NAME
+     String SOURCE_CODE_CHANGE_DETAILS_URI
+     String SOURCE_CODE_CHANGE_DETAILS_TRACKER = 'GitHub'
+     String SOURCE_CODE_BRANCH = "master"
+
+
      String build_info_file = 'build_info.yml'
      String COMITTER_NAME
      String COMITTER_MAIL
@@ -25,16 +32,16 @@ node{
      String GIT_FILES_NO
      String GIT_INSERTED
      String GIT_DELETED
-     String SOURCE_CODE_CHANGE_DETAILS_URI
-     String SOURCE_CODE_CHANGE_DETAILS_TRACKER = 'GitHub'
+
 
         stage ('GITHUB Checkout EI BackEnd Artifact SC') {
 
 		    dir ('sourcecode') {
 
-                            SOURCE_CODE_REPO_URI = sh(returnStdout: true, script: "git remote get-url origin").trim()
+                            // OBS ONLY WORKING IF GIT CLONE/PULL BEEN PERFORMED
+                            //SOURCE_CODE_REPO_URI = sh(returnStdout: true, script: "git remote get-url origin").trim()
 
-                            git poll: true, branch: "master", url: "$SOURCE_CODE_REPO_URI"
+                            git poll: true, branch: "${SOURCE_CODE_BRANCH}", url: "$SOURCE_CODE_REPO_URI"
 
                             SOURCE_CODE_REPO_NAME = sh(returnStdout: true, script: "basename -s .git `git config --get remote.origin.url`").trim()
 
@@ -60,17 +67,7 @@ node{
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
 
-                            String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
-
-
-
-// https://github.com/Ericsson/eiffel-intelligence/commit/b4ca03e09a87b699f89601ff7ceab747e92fefd6
-// basename -s .git `git config --get remote.origin.url`
-// git remote -v | head -n1 | awk '{print $2}' | sed -e 's,.*:\(.*/\)\?,,' -e 's/\.git$//'
-// git remote get-url origin
-// -> eiffel-intelligence
-//
-
+                            //String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
 
             }
 
@@ -162,7 +159,7 @@ node{
                           //"data.issues[0].transition":"RESOLVED",
                             "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
-                            "data.gitIdentifier.branch":"${BRANCH_NAME}",
+                            "data.gitIdentifier.branch":"${SOURCE_CODE_BRANCH}",
                             "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
                           //"data.customData[0]": {"key" : "my.data.customData[0]key", "value" : "my.data.customData[0]value"},
                           //"data.customData[1]": {"key" : "my.data.customData[1]key", "value" : "my.data.customData[1]value"},
@@ -202,7 +199,7 @@ node{
                             "data.submitter.group":"",
                             "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
-                            "data.gitIdentifier.branch":"${BRANCH_NAME}",
+                            "data.gitIdentifier.branch":"${SOURCE_CODE_BRANCH}",
                             "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
                           //"data.customData[0]": {"key" : "my.data.customData[0]key", "value" : "my.data.customData[0]value"},
                           //"data.customData[1]": {"key" : "my.data.customData[1]key", "value" : "my.data.customData[1]value"},
