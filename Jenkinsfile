@@ -58,7 +58,7 @@ node{
                             //String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{files+=\$1;} END {print files}'").trim()
 
 
-                            String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1","}'").trim()
+                            String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1','}'").trim()
                             String[] me = testar.split(',')
 
                             sh("git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1}'")
