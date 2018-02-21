@@ -135,7 +135,13 @@ node{
 		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
 
 
-
+                            //"meta.security.sdm.authorIdentity":"my_meta.security.sdm.authorIdentity",
+                            //"meta.security.sdm.encryptedDigest":"my_meta.security.sdm.encryptedDigest",
+                                                        //"data.issues[0].type":"BUG",
+                                                        //"data.issues[0].tracker":"JIRA",
+                                                        //"data.issues[0].id":"42",
+                                                        //"data.issues[0].uri":"http://jira.company.com/browse/JIRA-1234",
+                                                        //"data.issues[0].transition":"RESOLVED",
             // EiffelSourceChangeCreatedEvent
             def json_scc = """{
                             "meta.tags[0]":"my_meta[0]tags",
@@ -144,8 +150,6 @@ node{
                             "meta.source.host":"docker104-eiffel999",
                             "meta.source.name":"my_meta.source.name",
                             "meta.source.uri":"my_meta.source.uri",
-                            //"meta.security.sdm.authorIdentity":"my_meta.security.sdm.authorIdentity",
-                            //"meta.security.sdm.encryptedDigest":"my_meta.security.sdm.encryptedDigest",
                             "data.author.name":"${AUTHOR_NAME}",
                             "data.author.email":"${AUTHOR_MAIL}",
                             "data.author.id":"${AUTHOR_ID}",
@@ -156,11 +160,6 @@ node{
                             "data.change.tracker":"${SOURCE_CODE_CHANGE_DETAILS_TRACKER}",
                             "data.change.details":"${SOURCE_CODE_CHANGE_DETAILS_URI}",
                             "data.change.id":"42",
-                            //"data.issues[0].type":"BUG",
-                            //"data.issues[0].tracker":"JIRA",
-                            //"data.issues[0].id":"42",
-                            //"data.issues[0].uri":"http://jira.company.com/browse/JIRA-1234",
-                            //"data.issues[0].transition":"RESOLVED",
                             "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
                             "data.gitIdentifier.branch":"${BRANCH_NAME}",
