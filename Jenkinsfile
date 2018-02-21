@@ -180,7 +180,7 @@ node{
                           }"""
 
             // Create SCC Event and publish
-            sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelSourceChangeCreatedEvent"
+            sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeCreatedEvent"
 
 
 
@@ -216,7 +216,7 @@ node{
                           }"""
 
                // Create SCS Event and publish
-               sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelSourceChangeSubmittedEvent"
+               sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeSubmittedEvent"
 
 
 
