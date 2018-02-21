@@ -62,8 +62,8 @@ node{
 
                             sh("echo ${env}")
 
-                            sh('echo $env.BRANCH_NAME')
-                            sh('echo $env.GIT_COMMIT')
+                            sh('echo $BRANCH_NAME')
+                            sh('echo $GIT_COMMIT')
 
 
                             sh("echo ${GIT_FILES}")
