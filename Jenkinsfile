@@ -117,10 +117,6 @@ node{
 		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
 
 
-
-
-
-
             // EiffelSourceChangeSubmittedEvent
             def json_scs = """{
                             "meta.tags[0]":"my_meta[0]tags",
