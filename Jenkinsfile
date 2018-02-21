@@ -44,11 +44,12 @@ node{
                             String[] comitter_parts = COMITTER_MAIL.split('@');
                             COMITTER_NAME = comitter_parts[0].replace(".", " ");
 
-                            AUTHOR_MAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' -n 1").trim()
-                            AUTHOR_DATE = sh(returnStdout: true, script: "git --no-pager show -s --format='%at' -n 1").trim)
-                            AUTHOR_ID = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' -n 1").trim()
-                            String[] author_parts = COMITTER_MAIL.split('@');
-                            AUTHOR_NAME = author_parts[0].replace(".", " ");
+
+                           // AUTHOR_MAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' -n 1").trim()
+                           // AUTHOR_DATE = sh(returnStdout: true, script: "git --no-pager show -s --format='%at' -n 1").trim)
+                           // AUTHOR_ID = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' -n 1").trim()
+                           // String[] author_parts = AUTHOR_MAIL.split('@');
+                            //AUTHOR_NAME = author_parts[0].replace(".", " ");
 
 
                             //GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
