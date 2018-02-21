@@ -55,18 +55,15 @@ node{
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
 
-                            //String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{files+=\$1;} END {print files}'").trim()
-
-
                             String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
 
 
-                            sh("echo ${testar}")
+// https://github.com/Ericsson/eiffel-intelligence/commit/b4ca03e09a87b699f89601ff7ceab747e92fefd6
 
-                            //sh("git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1}'")
+                            sh("echo ${env}")
 
-
-                            //sh("echo ${testar}")
+                            sh('echo $BRANCH_NAME')
+                            sh('echo $GIT_COMMIT')
 
 
                             sh("echo ${GIT_FILES}")
