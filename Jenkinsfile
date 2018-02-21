@@ -51,6 +51,8 @@ node{
                             // Set GIT_FILES, GIT_INSERTED & GIT_DELETED
                             sh("git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{${GIT_FILES}+=\$1; ${GIT_INSERTED}+=\$4; ${GIT_DELETED}+=\$6}'")
 
+                            GIT_FILES = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=\$1;} END {print files}'").trim()
+
                             sh("echo ${GIT_FILES}")
                             sh("echo ${GIT_INSERTED}")
                             sh("echo ${GIT_DELETED}")
