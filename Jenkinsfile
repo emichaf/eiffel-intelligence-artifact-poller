@@ -159,6 +159,11 @@ node{
                              "data.hgIdentifier":"<%DELETE%>"
                            }"""
 
+            // Create SCC Event and publish
+            sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelSourceChangeSubmittedEvent"
+
+
+
             // EiffelSourceChangeSubmittedEvent
             def json_scs = """{
                             "meta.tags[0]":"my_meta[0]tags",
@@ -190,7 +195,7 @@ node{
                             "data.hgIdentifier":"<%DELETE%>"
                           }"""
 
-               // Create Event and publish
+               // Create SCS Event and publish
                sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelSourceChangeSubmittedEvent"
 
 
