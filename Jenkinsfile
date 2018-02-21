@@ -53,7 +53,7 @@ node{
                             String[] author_parts = AUTHOR_MAIL.split('@');
                             AUTHOR_NAME = author_parts[0].replace(".", " ");
 
-                            SOURCE_CODE_CHANGE_DETAILS_URI = "${SOURCE_CODE_REPO_URI}" + "/COMMIT/" + "${GIT_LONG_COMMIT}"
+                            SOURCE_CODE_CHANGE_DETAILS_URI = "${SOURCE_CODE_REPO_URI.replace(".git", "")}" + "/commit/" + "${GIT_LONG_COMMIT}"
 
                             GIT_FILES_NO = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=\$1;} END {print files}'").trim()
                             GIT_INSERTED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{inserted+=\$4;} END {print inserted}'").trim()
@@ -61,6 +61,15 @@ node{
 
 
                             String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
+
+
+
+// https://github.com/Ericsson/eiffel-intelligence/commit/b4ca03e09a87b699f89601ff7ceab747e92fefd6
+// basename -s .git `git config --get remote.origin.url`
+// git remote -v | head -n1 | awk '{print $2}' | sed -e 's,.*:\(.*/\)\?,,' -e 's/\.git$//'
+// git remote get-url origin
+// -> eiffel-intelligence
+//
 
 
             }
@@ -124,13 +133,8 @@ node{
 		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
 
 
-                            //"meta.security.sdm.authorIdentity":"my_meta.security.sdm.authorIdentity",
-                            //"meta.security.sdm.encryptedDigest":"my_meta.security.sdm.encryptedDigest",
-                                                        //"data.issues[0].type":"BUG",
-                                                        //"data.issues[0].tracker":"JIRA",
-                                                        //"data.issues[0].id":"42",
-                                                        //"data.issues[0].uri":"http://jira.company.com/browse/JIRA-1234",
-                                                        //"data.issues[0].transition":"RESOLVED",
+
+
             // EiffelSourceChangeCreatedEvent
             def json_scc = """{
                             "meta.tags[0]":"my_meta[0]tags",
@@ -139,6 +143,8 @@ node{
                             "meta.source.host":"docker104-eiffel999",
                             "meta.source.name":"my_meta.source.name",
                             "meta.source.uri":"my_meta.source.uri",
+                           //"meta.security.sdm.authorIdentity":"my_meta.security.sdm.authorIdentity",
+                           //"meta.security.sdm.encryptedDigest":"my_meta.security.sdm.encryptedDigest",
                             "data.author.name":"${AUTHOR_NAME}",
                             "data.author.email":"${AUTHOR_MAIL}",
                             "data.author.id":"${AUTHOR_ID}",
@@ -149,6 +155,11 @@ node{
                             "data.change.tracker":"${SOURCE_CODE_CHANGE_DETAILS_TRACKER}",
                             "data.change.details":"${SOURCE_CODE_CHANGE_DETAILS_URI}",
                             "data.change.id":"42",
+                          //"data.issues[0].type":"BUG",
+                          //"data.issues[0].tracker":"JIRA",
+                          //"data.issues[0].id":"42",
+                          //"data.issues[0].uri":"http://jira.company.com/browse/JIRA-1234",
+                          //"data.issues[0].transition":"RESOLVED",
                             "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
                             "data.gitIdentifier.branch":"${BRANCH_NAME}",
