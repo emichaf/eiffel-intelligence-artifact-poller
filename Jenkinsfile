@@ -45,11 +45,11 @@ node{
                             COMITTER_NAME = comitter_parts[0].replace(".", " ");
 
 
-                            AUTHOR_MAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' -n 1").trim()
-                            AUTHOR_DATE = sh(returnStdout: true, script: "git --no-pager show -s --format='%at' -n 1").trim)
-                            AUTHOR_ID = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' -n 1").trim()
-                            String[] author_parts = AUTHOR_MAIL.split('@');
-                            AUTHOR_NAME = author_parts[0].replace(".", " ");
+                           // AUTHOR_MAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' -n 1").trim()
+                           // AUTHOR_DATE = sh(returnStdout: true, script: "git --no-pager show -s --format='%at' -n 1").trim)
+                           // AUTHOR_ID = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' -n 1").trim()
+                           // String[] author_parts = AUTHOR_MAIL.split('@');
+                            //AUTHOR_NAME = author_parts[0].replace(".", " ");
 
 
                             //GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
@@ -115,6 +115,54 @@ node{
 	stage ('Create Event') {
 
 		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
+
+
+
+            // EiffelSourceChangeCreatedEvent
+            def json_scc = """{
+                           "meta.tags[0]":"my_meta[0]tags",
+                             "meta.tags[1]":"my_meta[1]tags",
+                             "meta.source.domainId":"my_meta.source.domainId",
+                             "meta.source.host":"docker104-eiffel999",
+                             "meta.source.name":"my_meta.source.name",
+                             "meta.source.uri":"my_meta.source.uri",
+                             "meta.security.sdm.authorIdentity":"my_meta.security.sdm.authorIdentity",
+                             "meta.security.sdm.encryptedDigest":"my_meta.security.sdm.encryptedDigest",
+                             "data.author.name":"${AUTHOR_NAME}",
+                             "data.author.email":"${AUTHOR_MAIL}",
+                             "data.author.id":"${AUTHOR_ID}",
+                             "data.author.group":"",
+                             "data.change.insertions":"${GIT_INSERTED}",
+                             "data.change.deletions":"${GIT_DELETED}",
+                             "data.change.files":"${GIT_FILES}",
+                             "data.change.tracker":"my_data.change.tracker",
+                             "data.change.details":"my_data.change.details",
+                             "data.change.id":"my_data.change.id",
+                             "data.issues[0].type":"BUG",
+                             "data.issues[0].tracker":"my_data.issues.tracker",
+                             "data.issues[0].id":"my_data.issues.id",
+                             "data.issues[0].uri":"my_data.issues.uri",
+                             "data.issues[0].transition":"RESOLVED",
+                             "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
+                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO}",
+                             "data.gitIdentifier.branch":"master",
+                             "data.gitIdentifier.repoName":"eiffel-intelligence.git",
+                             "data.customData[0]": {"key" : "my.data.customData[0]key", "value" : "my.data.customData[0]value"},
+                             "data.customData[1]": {"key" : "my.data.customData[1]key", "value" : "my.data.customData[1]value"},
+                             "links[0]": {"type" : "BASE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"},
+                             "links[1]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51a"},
+                             "links[2]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51b"},
+                             "links[3]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51c"},
+                             "links[4]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee50a"},
+                             "links[5]": {"type" : "FLOW_CONTEXT", "target" : "e269b37d-17a1-4a10-aafb-c108735ee48a"},
+                             "data.svnIdentifier":"<%DELETE%>",
+                             "data.ccCompositeIdentifier":"<%DELETE%>",
+                             "data.hgIdentifier":"<%DELETE%>"
+                           }"""
+
+            // Create SCC Event and publish
+            sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelSourceChangeCreatedEvent"
+
 
 
             // EiffelSourceChangeSubmittedEvent
