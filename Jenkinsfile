@@ -48,21 +48,12 @@ node{
                             String[] author_parts = AUTHOR_MAIL.split('@');
                             AUTHOR_NAME = author_parts[0].replace(".", " ");
 
+                            // Set GIT_FILES, GIT_INSERTED & GIT_DELETED
+                            sh("git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{${GIT_FILES}+=\$1; ${GIT_INSERTED}+=\$4; ${GIT_DELETED}+=\$6}'")
 
-                           // GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
-                           // String hej = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{$GIT_FILES+=$1; $GIT_INSERTED+=$4; $GIT_DELETED+=$6} END'")
-
-                           //String test =  sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=$1;} END {print files'").trim()
-
-                           sh("git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{$GIT_FILES+=\$1; $GIT_INSERTED+=\$4; $GIT_DELETED+=\$6}'")
-
-                           sh("echo $GIT_FILES")
-                           sh("echo $GIT_INSERTED")
-                           sh("echo $GIT_DELETED")
-
-                           //sh("awk -W version")
-
-                           // | (grep 'file changed' || grep 'files changed') | awk '{files+=$1;} END {print files}'")
+                            sh("echo ${GIT_FILES}")
+                            sh("echo ${GIT_INSERTED}")
+                            sh("echo ${GIT_DELETED}")
 
 
 
