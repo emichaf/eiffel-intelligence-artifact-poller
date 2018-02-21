@@ -50,7 +50,7 @@ node{
 
 
                            // GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
-                            String hej = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{$GIT_FILES+=$1; $GIT_INSERTED+=$4; $GIT_DELETED+=$6} END'")
+                           // String hej = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{$GIT_FILES+=$1; $GIT_INSERTED+=$4; $GIT_DELETED+=$6} END'")
 
 
             }
