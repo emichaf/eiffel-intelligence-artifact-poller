@@ -55,7 +55,10 @@ node{
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
 
-                            String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{files+=\$1;} END {print files}'").trim()
+                            //String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{files+=\$1;} END {print files}'").trim()
+
+                            String testar = sh(git show --pretty='format:' --name-only -n 1 | awk  '{ $1 }{print $1","}'
+                            //String[] author_parts = AUTHOR_MAIL.split('@')
 
                             sh("echo ${testar}")
 
