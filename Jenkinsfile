@@ -54,7 +54,7 @@ node{
 
                          //String test =  sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=$1;} END {print files'").trim()
 
-                        sh("git log --shortstat -n 1")
+                        sh("git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed')")
 
                          // | (grep 'file changed' || grep 'files changed') | awk '{files+=$1;} END {print files}'")
 
