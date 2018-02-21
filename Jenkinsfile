@@ -32,12 +32,10 @@ node{
 
 		    dir ('sourcecode') {
 
-                            // What about incoming builds on other branches and Pull Requests
-                            // OBS "${BRANCH_NAME}", wrapper ?
-
-                            git poll: true, branch: "master", url: "$SOURCE_CODE_REPO"
-
                             SOURCE_CODE_REPO_URI = sh(returnStdout: true, script: "git remote get-url origin").trim()
+
+                            git poll: true, branch: "master", url: "$SOURCE_CODE_REPO_URI"
+
                             //SOURCE_CODE_REPO_NAME = sh(returnStdout: true, script: "basename -s .git `git config --get remote.origin.url`").trim()
 
 							GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
