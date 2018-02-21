@@ -36,7 +36,7 @@ node{
 
                             git poll: true, branch: "master", url: "$SOURCE_CODE_REPO_URI"
 
-                            //SOURCE_CODE_REPO_NAME = sh(returnStdout: true, script: "basename -s .git `git config --get remote.origin.url`").trim()
+                            SOURCE_CODE_REPO_NAME = sh(returnStdout: true, script: "basename -s .git `git config --get remote.origin.url`").trim()
 
 							GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
                             GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
@@ -53,7 +53,7 @@ node{
                             String[] author_parts = AUTHOR_MAIL.split('@');
                             AUTHOR_NAME = author_parts[0].replace(".", " ");
 
-                            //SOURCE_CODE_CHANGE_DETAILS_URI = "${SOURCE_CODE_REPO_URI}" + "/COMMIT/" + "${GIT_LONG_COMMIT}"
+                            SOURCE_CODE_CHANGE_DETAILS_URI = "${SOURCE_CODE_REPO_URI}" + "/COMMIT/" + "${GIT_LONG_COMMIT}"
 
                             GIT_FILES_NO = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=\$1;} END {print files}'").trim()
                             GIT_INSERTED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{inserted+=\$4;} END {print inserted}'").trim()
