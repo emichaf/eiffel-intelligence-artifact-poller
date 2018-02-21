@@ -56,6 +56,8 @@ node{
 
                         sh("git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed')")
 
+                        sh("awk")
+
                          // | (grep 'file changed' || grep 'files changed') | awk '{files+=$1;} END {print files}'")
 
 
