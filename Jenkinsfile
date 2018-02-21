@@ -131,9 +131,9 @@ node{
                              "data.author.email":"${AUTHOR_MAIL}",
                              "data.author.id":"${AUTHOR_ID}",
                              "data.author.group":"",
-                //             "data.change.insertions":${GIT_INSERTED},
-                //             "data.change.deletions":${GIT_DELETED},
-                //             "data.change.files":${GIT_FILES},
+                             "data.change.insertions":"${GIT_INSERTED}",
+                             "data.change.deletions":"${GIT_DELETED}",
+                             "data.change.files":"${GIT_FILES}",
                              "data.change.tracker":"my_data.change.tracker",
                              "data.change.details":"my_data.change.details",
                              "data.change.id":"my_data.change.id",
@@ -160,7 +160,7 @@ node{
                            }"""
 
             // Create SCC Event and publish
-            sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelSourceChangeSubmittedEvent"
+            sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType=EiffelSourceChangeCreatedEvent"
 
 
 
