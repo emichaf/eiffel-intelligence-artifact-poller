@@ -54,7 +54,7 @@ node{
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
 
-                            String testar = sh(returnStdout: true, script: "git show --pretty="format:" --name-only -n 1 | awk '{files+=\$1;} END {print files}'").trim()
+                            String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{files+=\$1;} END {print files}'").trim()
 
                             sh("echo ${testar}")
 
