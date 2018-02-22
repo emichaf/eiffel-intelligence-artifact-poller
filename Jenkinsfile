@@ -96,7 +96,7 @@ node{
 
 
                    withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                                    credentialsId: 'github_credentials',
+                                    credentialsId: 'GITHUB_CREDENTIALS',
                                     usernameVariable: 'GITHUB_USER',
                                     passwordVariable: 'GITHUB_PASSWORD']]) {
 
