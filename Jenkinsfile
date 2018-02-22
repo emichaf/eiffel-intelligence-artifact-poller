@@ -10,7 +10,7 @@ node{
 
      String WRAPPER_REPO = "https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git"
      String WRAPPER_REPO_PATH = "github.com/emichaf/eiffel-intelligence-artifact-wrapper.git"
-     String WRAPPER_PIPELINE = "eiffel-intelligence-artifact-wrapper"
+   //String WRAPPER_PIPELINE = "eiffel-intelligence-artifact-wrapper"
      String WRAPPER_BRANCH = "master"
 
      String SOURCE_CODE_REPO_URI = "https://github.com/emichaf/eiffel-intelligence.git"
@@ -33,6 +33,9 @@ node{
      String GIT_INSERTED
      String GIT_DELETED
 
+     String HOST_NAME
+     String DOMAIN_ID
+     String SOURCE_NAME = "Jenkins"
 
         stage ('GITHUB Checkout EI BackEnd Artifact SC') {
 
@@ -66,6 +69,9 @@ node{
                             GIT_INSERTED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{inserted+=\$4;} END {print inserted}'").trim()
                             GIT_DELETED = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{deleted+=\$6;} END {print deleted}'").trim()
 
+
+                            HOST_NAME = sh(returnStdout: true, script: "hostname").trim()
+                            DOMAIN_ID = sh(returnStdout: true, script: " domainname").trim()
 
                             //String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
 
@@ -134,10 +140,10 @@ node{
 
             // EiffelSourceChangeCreatedEvent
             def json_scc = """{
-                            "meta.source.domainId":"my_meta.source.domainId",
-                            "meta.source.host":"docker104-eiffel999",
-                            "meta.source.name":"my_meta.source.name",
-                            "meta.source.uri":"my_meta.source.uri",
+                            "meta.source.domainId":"${DOMAIN_ID}",
+                            "meta.source.host":"${HOST_NAME}",
+                            "meta.source.name":"${SOURCE_NAME}",
+                            "meta.source.uri":"xxxxxxxxxxx",
                             "data.author.name":"${AUTHOR_NAME}",
                             "data.author.email":"${AUTHOR_MAIL}",
                             "data.author.id":"${AUTHOR_ID}",
@@ -174,10 +180,10 @@ node{
 
             // EiffelSourceChangeSubmittedEvent
             def json_scs = """{
-                            "meta.source.domainId":"docker104-eiffel999",
-                            "meta.source.host":"my_meta.source.host",
-                            "meta.source.name":"my_meta.source.name",
-                            "meta.source.uri":"http://docker104-eiffel999.lmera.ericsson.se:8080",
+                            "meta.source.domainId":"${DOMAIN_ID}",
+                            "meta.source.host":"${HOST_NAME}",
+                            "meta.source.name":"${SOURCE_NAME}",
+                            "meta.source.uri":"xxxxxxx",
                             "data.submitter.name":"${COMITTER_NAME}",
                             "data.submitter.email": "${COMITTER_MAIL}",
                             "data.submitter.id":"${COMITTER_ID}",
