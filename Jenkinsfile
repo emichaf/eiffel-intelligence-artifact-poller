@@ -1,4 +1,4 @@
-import groovy.json.JsonSlurper
+//import groovy.json.JsonSlurper
 
 node{
 
@@ -183,7 +183,8 @@ node{
 
 
             //def props = readJSON text: "${RESPONSE_SCC}"
-            def props = readJSON text: '{ "key": "value" }'
+            def props = readJSON text: '[ "a", "b"]'
+            assert props[0] == 'a'
 
              //writeYaml file: "$build_info_file", data: yml_content
              deg test = readJSON.
