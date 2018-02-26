@@ -1,14 +1,5 @@
 import groovy.json.JsonSlurper
 
-@NonCPS
-def parseJsonText(String json) {
-  def object = new JsonSlurper().parseText(json)
-  if(object instanceof groovy.json.internal.LazyMap) {
-      return new HashMap<>(object)
-  }
-  return object
-}
-
 node{
 
      // Poll every minute
@@ -236,3 +227,11 @@ node{
 
  }
 
+
+
+
+def parseJsonText(me) {
+   def pjson = new groovy.json.JsonSlurper().parse(me)
+   assert pjson instanceof Map
+   pjson
+}
