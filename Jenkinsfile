@@ -181,7 +181,7 @@ node{
             sh "echo ${RESPONSE_SCC}"
 
             def slurper = new JsonSlurper().parseText(RESPONSE_SCC)
-            sh "echo ${slurper.events[0].id}"
+           // sh "echo ${slurper.events[0].id}"
 
 
             // EiffelSourceChangeSubmittedEvent
