@@ -136,6 +136,9 @@ node{
 		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
 
 
+            // print existing env vars
+            echo sh(returnStdout: true, script: 'env')
+
 
 
             /*
@@ -185,7 +188,7 @@ node{
             sh "echo ${RESPONSE_SCC}"
             sh "echo ${props_scc.events[0].id}"
 
-            echo sh(returnStdout: true, script: 'env')
+
 
             // EiffelSourceChangeSubmittedEvent
             def json_scs = """{
@@ -212,6 +215,7 @@ node{
 
                // Create SCS Event and publish
                def RESPONSE_SCS = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeSubmittedEvent").trim()
+               sh "echo ${RESPONSE_SCS}"
 
                //sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeSubmittedEvent"
 
