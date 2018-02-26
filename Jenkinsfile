@@ -144,7 +144,7 @@ node{
             jenkins_display_url = "${RUN_DISPLAY_URL}".replaceAll("unconfigured-jenkins-location","$JENKINS_HOSTNAME"+":"+"${JENKINS_HOSTPORT}")
 
 
-            /*
+            /*  Add any of these ?
                                         "links[0]": {"type" : "BASE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"},
                                         "links[1]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51a"},
                                         "links[2]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51b"},
@@ -219,10 +219,6 @@ node{
                // Create SCS Event and publish
                def RESPONSE_SCS = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeSubmittedEvent").trim()
                sh "echo ${RESPONSE_SCS}"
-
-               //sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeSubmittedEvent"
-
-
 
         }
 
