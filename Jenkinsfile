@@ -1,5 +1,3 @@
-//import groovy.json.JsonSlurper
-
 node{
 
      // Poll every minute
@@ -140,12 +138,22 @@ node{
 
 
 
+            /*
+                                        "links[0]": {"type" : "BASE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"},
+                                        "links[1]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51a"},
+                                        "links[2]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51b"},
+                                        "links[3]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51c"},
+                                        "links[4]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee50a"},
+                                        "links[5]": {"type" : "FLOW_CONTEXT", "target" : "e269b37d-17a1-4a10-aafb-c108735ee48a"},
+            */
+
+
             // EiffelSourceChangeCreatedEvent
             def json_scc = """{
                             "meta.source.domainId":"${DOMAIN_ID}",
                             "meta.source.host":"${HOST_NAME}",
                             "meta.source.name":"${SOURCE_NAME}",
-                            "meta.source.uri":"xxxxxxxxxxx",
+                            "meta.source.uri":"xxxxx",
                             "data.author.name":"${AUTHOR_NAME}",
                             "data.author.email":"${AUTHOR_MAIL}",
                             "data.author.id":"${AUTHOR_ID}",
@@ -155,17 +163,11 @@ node{
                             "data.change.files":"${SOURCE_CODE_CHANGE_DETAILS_URI}",
                             "data.change.tracker":"${SOURCE_CODE_CHANGE_DETAILS_TRACKER}",
                             "data.change.details":"${SOURCE_CODE_CHANGE_DETAILS_URI}",
-                            "data.change.id":"42",
+                            "data.change.id":"",
                             "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
                             "data.gitIdentifier.branch":"${SOURCE_CODE_BRANCH}",
                             "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
-                            "links[0]": {"type" : "BASE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"},
-                            "links[1]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51a"},
-                            "links[2]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51b"},
-                            "links[3]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51c"},
-                            "links[4]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee50a"},
-                            "links[5]": {"type" : "FLOW_CONTEXT", "target" : "e269b37d-17a1-4a10-aafb-c108735ee48a"},
                             "data.svnIdentifier":"<%DELETE%>",
                             "data.ccCompositeIdentifier":"<%DELETE%>",
                             "data.hgIdentifier":"<%DELETE%>",
@@ -176,21 +178,13 @@ node{
                           }"""
 
             // Create SCC Event and publish
-            //sh "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeCreatedEvent"
             def RESPONSE_SCC = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeCreatedEvent").trim()
+            props_scc = readJSON text: "${RESPONSE_SCC}"
 
             sh "echo ${RESPONSE_SCC}"
+            sh "echo ${props_scc.events[0].id}"
 
-
-            props = readJSON text: "${RESPONSE_SCC}"
-            //props = readJSON text: '[ "a", "b"]'
-            sh "echo ${props.events[0].id}"
-
-             //writeYaml file: "$build_info_file", data: yml_content
-            // deg test = readJSON.
-            //def slurper = parseJsonText(RESPONSE_SCC)
-           // sh "echo ${props.events[0].id}"
-
+            echo sh(returnStdout: true, script: 'env')
 
             // EiffelSourceChangeSubmittedEvent
             def json_scs = """{
@@ -206,12 +200,7 @@ node{
                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
                             "data.gitIdentifier.branch":"${SOURCE_CODE_BRANCH}",
                             "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
-                            "links[0]": {"type" : "CHANGE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"},
-                            "links[1]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51a"},
-                            "links[2]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51b"},
-                            "links[3]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51c"},
-                            "links[4]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee50a"},
-                            "links[5]": {"type" : "FLOW_CONTEXT", "target" : "e269b37d-17a1-4a10-aafb-c108735ee48a"},
+                            "links[0]": {"type" : "CHANGE", "target" : "${props_scc.events[0].id}",
                             "data.svnIdentifier":"<%DELETE%>",
                             "data.ccCompositeIdentifier":"<%DELETE%>",
                             "data.hgIdentifier":"<%DELETE%>",
@@ -236,9 +225,3 @@ node{
 
 
 
-
-def parseJsonText(me) {
-   def pjson = new groovy.json.JsonSlurper().parse(me)
-   assert pjson instanceof Map
-   pjson
-}
