@@ -1,4 +1,14 @@
 import groovy.json.JsonSlurper
+
+@NonCPS
+def parseJsonText(String json) {
+  def object = new JsonSlurper().parseText(json)
+  if(object instanceof groovy.json.internal.LazyMap) {
+      return new HashMap<>(object)
+  }
+  return object
+}
+
 node{
 
      // Poll every minute
@@ -180,7 +190,7 @@ node{
 
             sh "echo ${RESPONSE_SCC}"
 
-            def slurper = new JsonSlurper().parseText(RESPONSE_SCC)
+            def slurper = parseJsonText(RESPONSE_SCC)
            // sh "echo ${slurper.events[0].id}"
 
 
