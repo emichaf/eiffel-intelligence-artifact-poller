@@ -187,9 +187,9 @@ node{
             assert props[0] == 'a'
 
              //writeYaml file: "$build_info_file", data: yml_content
-             deg test = readJSON.
+            // deg test = readJSON.
             //def slurper = parseJsonText(RESPONSE_SCC)
-            sh "echo ${props.events[0].id}"
+           // sh "echo ${props.events[0].id}"
 
 
             // EiffelSourceChangeSubmittedEvent
