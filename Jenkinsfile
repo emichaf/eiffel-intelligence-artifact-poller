@@ -18,8 +18,6 @@ node{
      String SOURCE_CODE_CHANGE_DETAILS_URI
      String SOURCE_CODE_CHANGE_DETAILS_TRACKER = 'GitHub'
      String SOURCE_CODE_BRANCH = "master"
-
-
      String build_info_file = 'build_info.yml'
      String COMITTER_NAME
      String COMITTER_MAIL
@@ -32,7 +30,7 @@ node{
      String GIT_FILES_NO
      String GIT_INSERTED
      String GIT_DELETED
-
+     String GIT_COMMIT_MSG
      String HOST_NAME
      String DOMAIN_ID
      String SOURCE_NAME = "Jenkins"
@@ -63,6 +61,8 @@ node{
                             String[] author_parts = AUTHOR_MAIL.split('@');
                             AUTHOR_NAME = author_parts[0].replace(".", " ");
 
+                            GIT_COMMIT_MSG = sh(returnStdout: true, script: "git --no-pager show -s --format='%s' -n 1").trim()
+
                             SOURCE_CODE_CHANGE_DETAILS_URI = "${SOURCE_CODE_REPO_URI.replace(".git", "")}" + "/commit/" + "${GIT_LONG_COMMIT}"
 
                             GIT_FILES_NO = sh(returnStdout: true, script: "git log --shortstat -n 1 | (grep 'file changed' || grep 'files changed') | awk '{files+=\$1;} END {print files}'").trim()
@@ -72,6 +72,8 @@ node{
 
                             HOST_NAME = sh(returnStdout: true, script: "hostname").trim()
                             DOMAIN_ID = sh(returnStdout: true, script: " domainname").trim()
+
+
 
                             //String testar = sh(returnStdout: true, script: "git show --pretty='format:' --name-only -n 1 | awk '{\$1}{print \$1\",\"}'").trim()
 
@@ -172,13 +174,13 @@ node{
                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
                             "data.gitIdentifier.branch":"${SOURCE_CODE_BRANCH}",
                             "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
+                            "data.customData[0]":{"key" : "Commit Message", "value" : "${GIT_COMMIT_MSG}"},
                             "data.svnIdentifier":"<%DELETE%>",
                             "data.ccCompositeIdentifier":"<%DELETE%>",
                             "data.hgIdentifier":"<%DELETE%>",
                             "data.issues[0]":"<%DELETE%>",
                             "meta.security.sdm":"<%DELETE%>",
                             "meta.tags":"<%DELETE%>",
-                            "data.customData[0]":"<%DELETE%>",
                             "links[0]":"<%DELETE%>"
                           }"""
 
@@ -205,13 +207,13 @@ node{
                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
                             "data.gitIdentifier.branch":"${SOURCE_CODE_BRANCH}",
                             "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
+                            "data.customData[0]":{"key" : "Commit Message", "value" : "${GIT_COMMIT_MSG}"},
                             "links[0]": {"type" : "CHANGE", "target" : "${props_scc.events[0].id}"},
                             "data.svnIdentifier":"<%DELETE%>",
                             "data.ccCompositeIdentifier":"<%DELETE%>",
                             "data.hgIdentifier":"<%DELETE%>",
                             "meta.security.sdm":"<%DELETE%>",
-                            "meta.tags":"<%DELETE%>",
-                            "data.customData[0]":"<%DELETE%>"
+                            "meta.tags":"<%DELETE%>"
                           }"""
 
                // Create SCS Event and publish
