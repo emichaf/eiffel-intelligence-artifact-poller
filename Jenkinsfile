@@ -181,8 +181,13 @@ node{
 
             sh "echo ${RESPONSE_SCC}"
 
-            def slurper = parseJsonText(RESPONSE_SCC)
-           // sh "echo ${slurper.events[0].id}"
+
+            def props = readJSON text: $RESPONSE_SCC
+
+             //writeYaml file: "$build_info_file", data: yml_content
+             deg test = readJSON.
+            //def slurper = parseJsonText(RESPONSE_SCC)
+            sh "echo ${props.events[0].id}"
 
 
             // EiffelSourceChangeSubmittedEvent
