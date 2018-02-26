@@ -174,7 +174,8 @@ node{
                             "data.issues[0]":"<%DELETE%>",
                             "meta.security.sdm":"<%DELETE%>",
                             "meta.tags":"<%DELETE%>",
-                            "data.customData[0]":"<%DELETE%>"
+                            "data.customData[0]":"<%DELETE%>",
+                            "links[0]":"<%DELETE%>"
                           }"""
 
             // Create SCC Event and publish
