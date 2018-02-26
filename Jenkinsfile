@@ -139,7 +139,7 @@ node{
             // print existing env vars
             echo sh(returnStdout: true, script: 'env')
 
-            jenkins_display_url = "${RUN_DISPLAY_URL}".replaceAll("unconfigured-jenkins-location","${JENKINS_HOSTNAME}"+":"+"${JENKINS_HOSTPORT}")
+            jenkins_display_url = "${RUN_DISPLAY_URL}".replaceAll("unconfigured-jenkins-location",${JENKINS_HOSTNAME}+":"+"${JENKINS_HOSTPORT}")
 
 
             /*
