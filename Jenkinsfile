@@ -204,7 +204,7 @@ node{
                             "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
                             "data.gitIdentifier.branch":"${SOURCE_CODE_BRANCH}",
                             "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
-                            "links[0]": {"type" : "CHANGE", "target" : "${props_scc.events[0].id}",
+                            "links[0]": {"type" : "CHANGE", "target" : "${props_scc.events[0].id}"},
                             "data.svnIdentifier":"<%DELETE%>",
                             "data.ccCompositeIdentifier":"<%DELETE%>",
                             "data.hgIdentifier":"<%DELETE%>",
