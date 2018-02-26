@@ -183,7 +183,7 @@ node{
 
 
             //def props = readJSON text: "${RESPONSE_SCC}"
-            def props = readJSON text: '[ "a", "b"]'
+            props = readJSON text: '[ "a", "b"]'
             assert props[0] == 'a'
 
              //writeYaml file: "$build_info_file", data: yml_content
