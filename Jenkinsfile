@@ -182,9 +182,9 @@ node{
             sh "echo ${RESPONSE_SCC}"
 
 
-            //def props = readJSON text: "${RESPONSE_SCC}"
-            props = readJSON text: '[ "a", "b"]'
-            assert props[0] == 'a'
+            props = readJSON text: "${RESPONSE_SCC}"
+            //props = readJSON text: '[ "a", "b"]'
+            sh "echo ${props.events[0].id}"
 
              //writeYaml file: "$build_info_file", data: yml_content
             // deg test = readJSON.
