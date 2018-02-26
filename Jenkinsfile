@@ -182,7 +182,7 @@ node{
             sh "echo ${RESPONSE_SCC}"
 
 
-            def props = readJSON text: $RESPONSE_SCC
+            def props = readJSON text: "${RESPONSE_SCC}"
 
              //writeYaml file: "$build_info_file", data: yml_content
              deg test = readJSON.
