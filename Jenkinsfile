@@ -1,3 +1,4 @@
+import groovy.json.JsonSlurper
 node{
 
      // Poll every minute
