@@ -138,7 +138,9 @@ node{
 
             // print existing env vars
             echo sh(returnStdout: true, script: 'env')
+()
 
+            jenkins_display_url = ${RUN_DISPLAY_URL}.replaceAll("unconfigured-jenkins-location","${JENKINS_HOSTNAME}"+":"+"${JENKINS_HOSTPORT}")
 
 
             /*
@@ -156,7 +158,7 @@ node{
                             "meta.source.domainId":"${DOMAIN_ID}",
                             "meta.source.host":"${HOST_NAME}",
                             "meta.source.name":"${SOURCE_NAME}",
-                            "meta.source.uri":"xxxxx",
+                            "meta.source.uri":"${jenkins_display_url}",
                             "data.author.name":"${AUTHOR_NAME}",
                             "data.author.email":"${AUTHOR_MAIL}",
                             "data.author.id":"${AUTHOR_ID}",
@@ -195,7 +197,7 @@ node{
                             "meta.source.domainId":"${DOMAIN_ID}",
                             "meta.source.host":"${HOST_NAME}",
                             "meta.source.name":"${SOURCE_NAME}",
-                            "meta.source.uri":"xxxxxxx",
+                            "meta.source.uri":"${jenkins_display_url}",
                             "data.submitter.name":"${COMITTER_NAME}",
                             "data.submitter.email": "${COMITTER_MAIL}",
                             "data.submitter.id":"${COMITTER_ID}",
