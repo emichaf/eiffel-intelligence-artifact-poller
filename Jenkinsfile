@@ -144,16 +144,6 @@ node{
             jenkins_display_url = "${RUN_DISPLAY_URL}".replaceAll("unconfigured-jenkins-location","$JENKINS_HOSTNAME"+":"+"${JENKINS_HOSTPORT}")
 
 
-            /*  Add any of these ?
-                                        "links[0]": {"type" : "BASE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51f"},
-                                        "links[1]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51a"},
-                                        "links[2]": {"type" : "PREVIOUS_VERSION", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51b"},
-                                        "links[3]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee51c"},
-                                        "links[4]": {"type" : "CAUSE", "target" : "e269b37d-17a1-4a10-aafb-c108735ee50a"},
-                                        "links[5]": {"type" : "FLOW_CONTEXT", "target" : "e269b37d-17a1-4a10-aafb-c108735ee48a"},
-            */
-
-
             // EiffelSourceChangeCreatedEvent
             def json_scc = """{
                             "meta.source.domainId":"${DOMAIN_ID}",
@@ -186,6 +176,7 @@ node{
 
             // Create SCC Event and publish
             def RESPONSE_SCC = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeCreatedEvent").trim()
+            if(RESPONSE_SCC.status != 200){ throw new Exception() }
             props_scc = readJSON text: "${RESPONSE_SCC}"
 
             sh "echo ${RESPONSE_SCC}"
@@ -218,6 +209,7 @@ node{
 
                // Create SCS Event and publish
                def RESPONSE_SCS = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeSubmittedEvent").trim()
+               if(RESPONSE_SCS.status != 200){ throw new Exception() }
                sh "echo ${RESPONSE_SCS}"
 
         }
