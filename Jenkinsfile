@@ -176,8 +176,9 @@ node{
 
             // Create SCC Event and publish
             def RESPONSE_SCC = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeCreatedEvent").trim()
-            if(RESPONSE_SCC.status != 200){ throw new Exception() }
-            props_scc = readJSON text: "${RESPONSE_SCC}"
+            sh "echo ${RESPONSE_SCC}"
+            props_SCC = readJSON text: "${RESPONSE_SCC}"
+            if(props_SCC.events[0].status_code != 200){throw new Exception()}
 
             sh "echo ${RESPONSE_SCC}"
             sh "echo ${props_scc.events[0].id}"
@@ -209,8 +210,11 @@ node{
 
                // Create SCS Event and publish
                def RESPONSE_SCS = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeSubmittedEvent").trim()
-               if(RESPONSE_SCS.status != 200){ throw new Exception() }
                sh "echo ${RESPONSE_SCS}"
+               props_SCS = readJSON text: "${RESPONSE_SCS}"
+               if(props_SCS.events[0].status_code != 200){throw new Exception()}
+
+
 
         }
 
