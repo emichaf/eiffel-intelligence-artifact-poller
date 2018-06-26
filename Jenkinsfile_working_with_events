@@ -145,6 +145,78 @@ node{
             jenkins_display_url = "${RUN_DISPLAY_URL}".replaceAll("unconfigured-jenkins-location","$JENKINS_HOSTNAME"+":"+"${JENKINS_HOSTPORT}")
 
 
+            // EiffelSourceChangeCreatedEvent
+            def json_scc = """{
+                            "meta.source.domainId":"${DOMAIN_ID}",
+                            "meta.source.host":"${HOST_NAME}",
+                            "meta.source.name":"${SOURCE_NAME}",
+                            "meta.source.uri":"${jenkins_display_url}",
+                            "data.author.name":"${AUTHOR_NAME}",
+                            "data.author.email":"${AUTHOR_MAIL}",
+                            "data.author.id":"${AUTHOR_ID}",
+                            "data.author.group":"",
+                            "data.change.insertions":"${GIT_INSERTED}",
+                            "data.change.deletions":"${GIT_DELETED}",
+                            "data.change.files":"${SOURCE_CODE_CHANGE_DETAILS_URI}",
+                            "data.change.tracker":"${SOURCE_CODE_CHANGE_DETAILS_TRACKER}",
+                            "data.change.details":"${SOURCE_CODE_CHANGE_DETAILS_URI}",
+                            "data.change.id":"",
+                            "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
+                            "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
+                            "data.gitIdentifier.branch":"${SOURCE_CODE_BRANCH}",
+                            "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
+                            "data.customData[0]":{"key" : "Commit Message", "value" : "${GIT_COMMIT_MSG}"},
+                            "data.svnIdentifier":"<%DELETE%>",
+                            "data.ccCompositeIdentifier":"<%DELETE%>",
+                            "data.hgIdentifier":"<%DELETE%>",
+                            "data.issues[0]":"<%DELETE%>",
+                            "meta.security.sdm":"<%DELETE%>",
+                            "meta.tags":"<%DELETE%>",
+                            "links[0]":"<%DELETE%>"
+                          }"""
+
+            // Create SCC Event and publish
+            def RESPONSE_SCC = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scc}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeCreatedEvent").trim()
+            sh "echo ${RESPONSE_SCC}"
+            props_SCC = readJSON text: "${RESPONSE_SCC}"
+            if(props_SCC.events[0].status_code != 200){throw new Exception()}
+
+            sh "echo ${RESPONSE_SCC}"
+            sh "echo ${props_scc.events[0].id}"
+
+
+
+            // EiffelSourceChangeSubmittedEvent
+            def json_scs = """{
+                            "meta.source.domainId":"${DOMAIN_ID}",
+                            "meta.source.host":"${HOST_NAME}",
+                            "meta.source.name":"${SOURCE_NAME}",
+                            "meta.source.uri":"${jenkins_display_url}",
+                            "data.submitter.name":"${COMITTER_NAME}",
+                            "data.submitter.email": "${COMITTER_MAIL}",
+                            "data.submitter.id":"${COMITTER_ID}",
+                            "data.submitter.group":"",
+                            "data.gitIdentifier.commitId":"${GIT_LONG_COMMIT}",
+                            "data.gitIdentifier.repoUri":"${SOURCE_CODE_REPO_URI}",
+                            "data.gitIdentifier.branch":"${SOURCE_CODE_BRANCH}",
+                            "data.gitIdentifier.repoName":"${SOURCE_CODE_REPO_NAME}",
+                            "data.customData[0]":{"key" : "Commit Message", "value" : "${GIT_COMMIT_MSG}"},
+                            "links[0]": {"type" : "CHANGE", "target" : "${props_scc.events[0].id}"},
+                            "data.svnIdentifier":"<%DELETE%>",
+                            "data.ccCompositeIdentifier":"<%DELETE%>",
+                            "data.hgIdentifier":"<%DELETE%>",
+                            "meta.security.sdm":"<%DELETE%>",
+                            "meta.tags":"<%DELETE%>"
+                          }"""
+
+               // Create SCS Event and publish
+               def RESPONSE_SCS = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json_scs}' ${EVENT_PARSER_PUB_GEN_URI}EiffelSourceChangeSubmittedEvent").trim()
+               sh "echo ${RESPONSE_SCS}"
+               props_SCS = readJSON text: "${RESPONSE_SCS}"
+               if(props_SCS.events[0].status_code != 200){throw new Exception()}
+
+
+
         }
 
 
@@ -153,3 +225,6 @@ node{
 
 
  }
+
+
+
