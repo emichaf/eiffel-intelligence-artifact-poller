@@ -134,10 +134,9 @@ node{
 
 
 
-	stage ('Create Event') {
+	stage ('Trigger Wrapper Builds') {
 
-		    // build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
-
+		    build job: "${WRAPPER_PIPELINE}/${WRAPPER_BRANCH}", parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
 
             // print existing env vars
             echo sh(returnStdout: true, script: 'env')
